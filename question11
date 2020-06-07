@@ -1,0 +1,60 @@
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+
+i = open('values.txt', 'r')
+i.readline()
+
+r = []
+v = []
+Vm = []
+Dm = []
+m = []
+G = 4.3*(10**-6)
+firstsum = 4394334140
+DmV = []
+combinedV = []
+VmV = []
+Tm = []
+
+
+#for f in r:
+  #trig = math.atan(f/(1.87))
+  #secondsum = (f-((1.87)*(trig)))
+  #wholesum = (firstsum)*(secondsum)
+  #Dm = float(wholesum)
+  #DmV.append(((float(G))*(Dm)/(float(line.split('\t')[0])))**(1/2))
+
+for line in i:
+  trig = math.atan((float(line.split('\t')[0]))/(1.87))
+  secondsum = ((float(line.split('\t')[0])) - ((1.87)*(trig)))
+  wholesum = (firstsum)*(secondsum)
+  Dm = float(wholesum)
+  r.append(float(line.split("\t")[0]))
+  v.append(float(line.split("\t")[1]))
+  m.append(float(line.split('\t')[4]))
+  VmV.append(((float(G))*((float(line.split('\t')[4])))/(float(line.split('\t')[0])))**(1/2))
+  Tm.append((float(line.split('\t')[4]))+Dm)
+  combinedV.append(((float(G))*((float(line.split('\t')[4]))+Dm)/(float(line.split('\t')[0])))**(1/2))
+
+for f in r:
+  trig = math.atan(f/(1.87))
+  secondsum = (f-((1.87)*(trig)))
+  wholesum = (firstsum)*(secondsum)
+  Dm = float(wholesum)
+  DmV.append(((float(G))*(Dm)/(float(line.split('\t')[0])))**(1/2))
+
+Dm = np.array(Dm)
+Vm = np.array(Vm)
+r = np.array(r)
+v = np.array(v)
+VmV = np.array(VmV)
+Tm = np.array(Tm)
+
+plt.plot(r,v)
+plt.plot(r,VmV)
+plt.plot(r,combinedV)
+
+plt.xlabel('Velocity(km/h)')
+plt.ylabel('Radius(kpc)')
+plt.show()
